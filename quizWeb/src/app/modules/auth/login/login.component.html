@@ -1,1 +1,27 @@
-<p>login works!</p>
+<div class="bg" style="background-color: #F8F8F8;">
+    <div class="parent">
+        <div class="child">
+            <div nz-row class="imgDiv">
+                <h1 style="margin-left: 100px">Login</h1>
+            </div>
+
+            <form nz-form [formGroup]="validateForm" class="login-form">
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Please input your Email!">
+                        <input type="text" nz-input placeholder="Email" formControlName="email"/>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Please input your Password!">
+                        <input type="password" nz-input placeholder="Password" formControlName="password"/>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Log in</button>
+                Or <a routerLink="/register"> Register now! </a>
+            </form>
+        </div>
+    </div>
+</div>
+
