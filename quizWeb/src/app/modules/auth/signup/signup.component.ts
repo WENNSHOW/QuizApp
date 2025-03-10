@@ -42,7 +42,7 @@ export class SignupComponent {
       .error(
         `${error.error}`,
         { nzDuration: 5000 }
-      )
+      );
     })
   }
 }
