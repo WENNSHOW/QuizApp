@@ -7,4 +7,6 @@ public interface UserService {
     Users createUser(Users user);
 
     Boolean hasUserWithEmail(String email);
+
+    Users login(Users user);
 }
