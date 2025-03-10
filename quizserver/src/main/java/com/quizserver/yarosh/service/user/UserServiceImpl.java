@@ -40,6 +40,9 @@ public class UserServiceImpl implements UserService {
 
 
     public Users createUser(Users user){
+        if (user.getEmail() == null || user.getName() == null || user.getPassword() == null) {
+            return null;
+        }
         user.setRole(UserRole.USER);
 
         return userRepository.save(user);
