@@ -27,7 +27,7 @@ public class UserController {
 
         Users createdUser = userService.createUser(user);
         if (createdUser == null){
-            return new ResponseEntity<>("User cannot be created, come again later", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>("User cannot be created, try to fill all fields", HttpStatus.NOT_ACCEPTABLE);
         }
 
         return new ResponseEntity<>(createdUser, HttpStatus.OK);
