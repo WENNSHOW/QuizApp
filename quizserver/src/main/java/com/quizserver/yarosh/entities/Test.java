@@ -1,11 +1,10 @@
 package com.quizserver.yarosh.entities;
 
 import com.quizserver.yarosh.dto.TestDTO;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -20,6 +19,9 @@ public class Test {
     private String description;
 
     private Long time;
+
+    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL)
+    private List<Question> questions;
 
     public TestDTO getDto(){
         TestDTO testDTO = new TestDTO();
