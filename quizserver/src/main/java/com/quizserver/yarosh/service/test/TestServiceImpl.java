@@ -2,6 +2,7 @@ package com.quizserver.yarosh.service.test;
 
 import com.quizserver.yarosh.dto.QuestionDTO;
 import com.quizserver.yarosh.dto.TestDTO;
+import com.quizserver.yarosh.dto.TestDetailsDTO;
 import com.quizserver.yarosh.entities.Question;
 import com.quizserver.yarosh.entities.Test;
 import com.quizserver.yarosh.repository.QuestionRepository;
@@ -60,5 +61,21 @@ public class TestServiceImpl implements TestService {
         return testRepository.findAll().stream().peek(
                 test->test.setTime(test.getQuestions().size() * test.getTime())).toList()
                 .stream().map(Test::getDto).collect(Collectors.toList());
+    }
+
+    public TestDetailsDTO getAllQuestionsByTest(Long id){
+        Optional<Test> optionalTest = testRepository.findById(id);
+        TestDetailsDTO testDetailsDTO = new TestDetailsDTO();
+
+        if (optionalTest.isPresent()) {
+            TestDTO testDTO = optionalTest.get().getDto();
+            testDTO.setTime(optionalTest.get().getQuestions().size() * optionalTest.get().getTime());
+
+            testDetailsDTO.setTestDTO(testDTO);
+            testDetailsDTO.setQuestions(optionalTest.get().getQuestions().stream().map(Question::getDto).toList());
+            return testDetailsDTO;
+
+        }
+        return testDetailsDTO;
     }
 }
