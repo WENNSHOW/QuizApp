@@ -1,8 +1,6 @@
 package com.quizserver.yarosh.service.test;
 
-import com.quizserver.yarosh.dto.QuestionDTO;
-import com.quizserver.yarosh.dto.TestDTO;
-import com.quizserver.yarosh.dto.TestDetailsDTO;
+import com.quizserver.yarosh.dto.*;
 
 import java.util.List;
 
@@ -14,4 +12,6 @@ public interface TestService {
     List<TestDTO> getAllTests();
 
     TestDetailsDTO getAllQuestionsByTest(Long id);
+
+    TestResultDTO submitTest(SubmitTestDTO request);
 }

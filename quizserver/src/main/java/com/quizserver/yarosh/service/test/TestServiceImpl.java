@@ -1,12 +1,14 @@
 package com.quizserver.yarosh.service.test;
 
-import com.quizserver.yarosh.dto.QuestionDTO;
-import com.quizserver.yarosh.dto.TestDTO;
-import com.quizserver.yarosh.dto.TestDetailsDTO;
+import com.quizserver.yarosh.dto.*;
 import com.quizserver.yarosh.entities.Question;
 import com.quizserver.yarosh.entities.Test;
+import com.quizserver.yarosh.entities.TestResult;
+import com.quizserver.yarosh.entities.Users;
 import com.quizserver.yarosh.repository.QuestionRepository;
 import com.quizserver.yarosh.repository.TestRepository;
+import com.quizserver.yarosh.repository.TestResultRepository;
+import com.quizserver.yarosh.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,11 +23,15 @@ public class TestServiceImpl implements TestService {
 
     private final TestRepository testRepository;
     private final QuestionRepository questionRepository;
+    private final TestResultRepository testResultRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public TestServiceImpl(TestRepository testRepository, QuestionRepository questionRepository) {
+    public TestServiceImpl(TestRepository testRepository, QuestionRepository questionRepository, TestResultRepository testResultRepository, UserRepository userRepository) {
         this.testRepository = testRepository;
         this.questionRepository = questionRepository;
+        this.testResultRepository = testResultRepository;
+        this.userRepository = userRepository;
     }
 
     public TestDTO createTest(TestDTO dto) {
@@ -77,5 +83,33 @@ public class TestServiceImpl implements TestService {
 
         }
         return testDetailsDTO;
+    }
+
+    public TestResultDTO submitTest(SubmitTestDTO request) {
+        Test test = testRepository.findById(request.getTestId()).orElseThrow(() -> new EntityNotFoundException("Test Not Found"));
+
+        Users user = userRepository.findById(request.getUserId()).orElseThrow(() -> new EntityNotFoundException("User Not Found"));
+
+        int correctAnswers = 0;
+        for (QuestionResponse response : request.getResponses()) {
+            Question question = questionRepository.findById(response.getQuestionId()).orElseThrow(() -> new EntityNotFoundException("Question Not Found"));
+
+            if (question.getCorrectOption().equals(response.getSelectedOption())){
+                correctAnswers++;
+            }
+        }
+
+        int totalQuestions = test.getQuestions().size();
+
+        double percentage = ((double) correctAnswers / totalQuestions) * 100;
+
+        TestResult testResult = new TestResult();
+        testResult.setTest(test);
+        testResult.setUser(user);
+        testResult.setTotalQuestions(totalQuestions);
+        testResult.setCorrectAnswers(correctAnswers);
+        testResult.setPercentage(percentage);
+
+        return testResultRepository.save(testResult).getDTO();
     }
 }

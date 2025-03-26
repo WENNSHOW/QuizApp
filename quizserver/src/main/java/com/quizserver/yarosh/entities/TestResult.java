@@ -16,7 +16,7 @@ public class TestResult {
 
     private int correctAnswers;
 
-    private int percentage;
+    private double percentage;
 
     @ManyToOne
     @JoinColumn(name="test_id")

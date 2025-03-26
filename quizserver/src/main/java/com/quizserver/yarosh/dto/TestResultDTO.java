@@ -6,11 +6,11 @@ import lombok.Data;
 public class TestResultDTO {
     private Long id;
 
-    private  int totalQuestions;
+    private int totalQuestions;
 
     private int correctAnswers;
 
-    private int percentage;
+    private double percentage;
 
     private String testName;
 
