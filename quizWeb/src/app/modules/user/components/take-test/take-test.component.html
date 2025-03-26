@@ -1,5 +1,10 @@
 <div style="margin: auto; width: 80%;">
-    <form>
+    <div class="timer-container">
+        <div class="timer">
+            Time remaining: {{ getFormattedTime() }}
+        </div>
+    </div>
+    <form (ngSubmit)="submitAnswers()">
         <div class="question" *ngFor="let question of questions">
             <h3>{{ question.questionText }}</h3>
 
