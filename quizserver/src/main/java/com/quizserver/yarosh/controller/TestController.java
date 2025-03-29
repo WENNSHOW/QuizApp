@@ -74,4 +74,13 @@ public class TestController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/test-result/{id}")
+    public ResponseEntity<?> getAllTestResultsOfUser(@PathVariable Long id){
+        try{
+            return new ResponseEntity<>(testService.getAllTestResultsOfUser(id), HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

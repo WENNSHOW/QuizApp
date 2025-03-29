@@ -9,6 +9,7 @@ import com.quizserver.yarosh.repository.QuestionRepository;
 import com.quizserver.yarosh.repository.TestRepository;
 import com.quizserver.yarosh.repository.TestResultRepository;
 import com.quizserver.yarosh.repository.UserRepository;
+import com.quizserver.yarosh.util.UserNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -115,5 +116,11 @@ public class TestServiceImpl implements TestService {
 
     public List<TestResultDTO> getAllTestResults(){
         return testResultRepository.findAll().stream().map(TestResult::getDTO).collect(Collectors.toList());
+    }
+
+    public List<TestResultDTO> getAllTestResultsOfUser(Long userId) throws UserNotFoundException {
+
+        userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User Not Found"));
+        return testResultRepository.findAllByUserId(userId).stream().map(TestResult::getDTO).collect(Collectors.toList());
     }
 }
