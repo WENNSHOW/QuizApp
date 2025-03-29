@@ -26,4 +26,8 @@ export class AdminService {
   getTestQuestions(id:number): Observable<any> {
     return this.http.get(BASIC_URL + `api/test/${id}`);
   }
+
+  getTestResults(): Observable<any> {
+    return this.http.get(BASIC_URL + `api/test/test-result`);
+  }
 }
