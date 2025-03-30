@@ -66,32 +66,36 @@ export class TakeTestComponent {
   }
 
   submitAnswers(){
-    const answerList = Object.keys(this.selectedAnswers).map(questionId =>{
+    const answerList = Object.keys(this.selectedAnswers).map(questionId => {
       return {
         questionId: +questionId,
         selectedOption: this.selectedAnswers[questionId]
       }
     })
-
+  
     const data = {
       testId: this.testId,
       userId: UserStorageService.getUserId(),
       responses: answerList
     }
-
-    this.testService.submitTest(data).subscribe(res=>{
-      this.message
-      .success(
-        `Test Submitted Successfully`,
-        { nzDuration: 5000 }
-      );
-      this.router.navigateByUrl("/user/view-test-results");
-    }, error=>{
-      this.message
-      .error(
-        `${error.error}`,
-        { nzDuration: 5000 }
-      );
-    })
-  }
+  
+    this.testService.submitTest(data).subscribe(res => {
+      this.message.success(`Test Submitted Successfully`, { nzDuration: 5000 });
+      
+      // Создаем объект с необходимыми данными
+      const resultData = {
+        testName: res.testName,
+        totalQuestions: res.totalQuestions,
+        correctAnswers: res.correctAnswers
+      };
+  
+      // Сохраняем результат в sessionStorage
+      sessionStorage.setItem('testResult', JSON.stringify(resultData));
+      
+      // Переходим на страницу диаграммы
+      this.router.navigateByUrl("/user/test-results-chart");
+    }, error => {
+      this.message.error(`${error.error}`, { nzDuration: 5000 });
+    });
+  }  
 }

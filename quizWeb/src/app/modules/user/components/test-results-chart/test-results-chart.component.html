@@ -1,0 +1,9 @@
+<div style="text-align:center; margin-top: 30px;">
+  <h2>{{ testName }}</h2>
+  <canvas id="resultsChart" ></canvas>
+  <div style="margin-top: 20px;">
+    <p>Правильных ответов: {{ correctAnswers }} ({{ correctPercentage | number:'1.2-2' }}%)</p>
+    <p>Неправильных ответов: {{ incorrectAnswers }} ({{ incorrectPercentage | number:'1.2-2' }}%)</p>
+  </div>
+  <button nz-button nzType="primary" (click)="next()">Далее</button>
+</div>

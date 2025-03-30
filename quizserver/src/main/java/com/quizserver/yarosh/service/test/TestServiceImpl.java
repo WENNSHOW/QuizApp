@@ -14,8 +14,11 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
@@ -115,12 +118,55 @@ public class TestServiceImpl implements TestService {
     }
 
     public List<TestResultDTO> getAllTestResults(){
-        return testResultRepository.findAll().stream().map(TestResult::getDTO).collect(Collectors.toList());
+        List<TestResultDTO> dtos = testResultRepository.findAll()
+                .stream()
+                .map(TestResult::getDTO)
+                .toList();
+
+        return dtos.stream()
+                .collect(Collectors.collectingAndThen(
+                        Collectors.toMap(
+                                this::generateKey,
+                                Function.identity(),
+                                (dto1, dto2) -> dto1
+                        ),
+                        map -> new ArrayList<>(map.values())
+                ));
     }
 
     public List<TestResultDTO> getAllTestResultsOfUser(Long userId) throws UserNotFoundException {
-
         userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User Not Found"));
-        return testResultRepository.findAllByUserId(userId).stream().map(TestResult::getDTO).collect(Collectors.toList());
+        List<TestResultDTO> dtos = testResultRepository.findAllByUserId(userId)
+                .stream()
+                .map(TestResult::getDTO)
+                .toList();
+
+        return dtos.stream()
+                .collect(Collectors.collectingAndThen(
+                        Collectors.toMap(
+                                this::generateKey,
+                                Function.identity(),
+                                (dto1, dto2) -> dto1
+                        ),
+                        map -> new ArrayList<>(map.values())
+                ));
+    }
+
+    private String generateKey(Object dto) {
+        StringBuilder keyBuilder = new StringBuilder();
+        Field[] fields = dto.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            if ("id".equals(field.getName())) {
+                continue;
+            }
+            field.setAccessible(true);
+            try {
+                Object value = field.get(dto);
+                keyBuilder.append(value).append("_");
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException("Ошибка при доступе к полям объекта", e);
+            }
+        }
+        return keyBuilder.toString();
     }
 }
