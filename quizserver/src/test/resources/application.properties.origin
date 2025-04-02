@@ -1,0 +1,5 @@
+spring.datasource.url=jdbc:h2:mem:${DATABASE_NAME}
+spring.datasource.driver-class-name=${DRIVER}
+spring.datasource.username=${USERNAME}
+spring.datasource.password=${PASSWORD}
+spring.jpa.database-platform=${DIALECT}

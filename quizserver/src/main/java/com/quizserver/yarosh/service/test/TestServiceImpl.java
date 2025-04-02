@@ -134,8 +134,12 @@ public class TestServiceImpl implements TestService {
                 ));
     }
 
-    public List<TestResultDTO> getAllTestResultsOfUser(Long userId) throws UserNotFoundException {
-        userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User Not Found"));
+    public List<TestResultDTO> getAllTestResultsOfUser(Long userId)  {
+        try {
+            userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User Not Found"));
+        } catch (Exception e) {
+            throw new UserNotFoundException(e.getMessage());
+        }
         List<TestResultDTO> dtos = testResultRepository.findAllByUserId(userId)
                 .stream()
                 .map(TestResult::getDTO)
@@ -165,6 +169,8 @@ public class TestServiceImpl implements TestService {
                 keyBuilder.append(value).append("_");
             } catch (IllegalAccessException e) {
                 throw new RuntimeException("Ошибка при доступе к полям объекта", e);
+            } finally {
+                field.setAccessible(false);
             }
         }
         return keyBuilder.toString();
