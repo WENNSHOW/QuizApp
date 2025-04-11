@@ -13,6 +13,7 @@ import com.quizserver.yarosh.util.UserNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class TestServiceImpl implements TestService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     public TestDTO createTest(TestDTO dto) {
         Test test = new Test();
 
@@ -48,6 +50,7 @@ public class TestServiceImpl implements TestService {
         return testRepository.save(test).getDto();
     }
 
+    @Transactional
     public QuestionDTO addQuestionInTest(QuestionDTO dto) {
         Optional<Test> optionalTest = testRepository.findById(dto.getId());
 
@@ -67,12 +70,14 @@ public class TestServiceImpl implements TestService {
         throw new EntityNotFoundException("Test Not Found");
     }
 
+    @Transactional(readOnly = true)
     public List<TestDTO> getAllTests(){
         return testRepository.findAll().stream().peek(
                 test->test.setTime(test.getQuestions().size() * test.getTime())).toList()
                 .stream().map(Test::getDto).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public TestDetailsDTO getAllQuestionsByTest(Long id){
         Optional<Test> optionalTest = testRepository.findById(id);
         TestDetailsDTO testDetailsDTO = new TestDetailsDTO();
@@ -89,6 +94,7 @@ public class TestServiceImpl implements TestService {
         return testDetailsDTO;
     }
 
+    @Transactional
     public TestResultDTO submitTest(SubmitTestDTO request) {
         Test test = testRepository.findById(request.getTestId()).orElseThrow(() -> new EntityNotFoundException("Test Not Found"));
 
@@ -117,6 +123,7 @@ public class TestServiceImpl implements TestService {
         return testResultRepository.save(testResult).getDTO();
     }
 
+    @Transactional(readOnly = true)
     public List<TestResultDTO> getAllTestResults(){
         List<TestResultDTO> dtos = testResultRepository.findAll()
                 .stream()
@@ -134,6 +141,7 @@ public class TestServiceImpl implements TestService {
                 ));
     }
 
+    @Transactional(readOnly = true)
     public List<TestResultDTO> getAllTestResultsOfUser(Long userId)  {
         try {
             userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User Not Found"));

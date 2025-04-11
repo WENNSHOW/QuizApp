@@ -20,7 +20,7 @@ public class Test {
 
     private Long time;
 
-    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL)
     private List<Question> questions;
 
     public TestDTO getDto(){

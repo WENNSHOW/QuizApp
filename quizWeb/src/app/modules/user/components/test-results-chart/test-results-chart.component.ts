@@ -38,7 +38,7 @@ export class TestResultsChartComponent implements OnInit {
       this.incorrectPercentage = 100 - this.correctPercentage;
       this.renderChart();
     } else {
-      this.message.error('Нет данных теста для отображения диаграммы');
+      this.message.error('No test data for view diagram');
       this.router.navigate(['/user/view-test-results']);
     }
   }
@@ -48,7 +48,7 @@ export class TestResultsChartComponent implements OnInit {
     const canvas = document.getElementById('resultsChart') as HTMLCanvasElement;
     // Формируем данные для диаграммы
     const data: ChartData<'doughnut'> = {
-      labels: ['Правильные', 'Неправильные'],
+      labels: ['Correct', 'Incorrect'],
       datasets: [{
         data: [this.correctPercentage, this.incorrectPercentage],
         backgroundColor: ['#28a745', '#dc3545']

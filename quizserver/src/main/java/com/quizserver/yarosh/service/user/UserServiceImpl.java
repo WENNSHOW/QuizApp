@@ -6,6 +6,7 @@ import com.quizserver.yarosh.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -20,7 +21,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @PostConstruct
-    private void createAdminUser() {
+    @Transactional
+    protected void createAdminUser() {
         Users optionalUser = userRepository.findByRole(UserRole.ADMIN);
         if (optionalUser == null) {
             Users user = new Users();
@@ -39,7 +41,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findFirsByEmail(email) != null;
     }
 
-
+    @Transactional
     public Users createUser(Users user){
         if (user.getEmail() == null || user.getName() == null || user.getPassword() == null) {
             return null;
@@ -49,7 +51,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-
+    @Transactional(readOnly = true)
     public Users login(Users user){
         Optional<Users> optionalUser = userRepository.findByEmail(user.getEmail());
 
