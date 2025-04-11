@@ -49,7 +49,7 @@ _In progress_
 ![user_view_result.png](https://github.com/WENNSHOW/QuizApp/blob/master/github/user_view_result.png)
 
 5) #### Working with REST in Postman
-![postman_res.png](https://github.com/WENNSHOW/QuizApp/blob/master/github/postman_res.png)
+![Postman.png](https://github.com/WENNSHOW/QuizApp/blob/master/github/Postman.png)
 
 6) #### Project documentation in the openAPI specification
 ![OpenAPI.png](https://github.com/WENNSHOW/QuizApp/blob/master/github/OpenAPI.png)
