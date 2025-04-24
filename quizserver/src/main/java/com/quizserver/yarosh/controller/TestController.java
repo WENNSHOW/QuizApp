@@ -37,7 +37,7 @@ public class TestController {
             @ApiResponse(responseCode = "400", description = "Ошибка создания теста")
     })
     @PostMapping()
-    public ResponseEntity<?>git  createTest(
+    public ResponseEntity<?> createTest(
             @RequestBody(
                     description = "Данные теста",
                     required = true,

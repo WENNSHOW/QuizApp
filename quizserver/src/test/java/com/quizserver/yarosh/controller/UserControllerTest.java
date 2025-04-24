@@ -32,7 +32,7 @@ class UserControllerTest {
         ResponseEntity<?> response = userController.signupUser(user);
 
         assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
-        assertEquals("User has already exists", response.getBody());
+        assertEquals("{\"error\": \"User has already exists\"}", response.getBody());
     }
 
     @Test
@@ -46,7 +46,7 @@ class UserControllerTest {
         ResponseEntity<?> response = userController.signupUser(user);
 
         assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
-        assertEquals("User cannot be created, try to fill all fields", response.getBody());
+        assertEquals("{\"error\": \"User cannot be created, try to fill all fields\"}", response.getBody());
     }
 
     @Test
@@ -78,7 +78,7 @@ class UserControllerTest {
         ResponseEntity<?> response = userController.login(user);
 
         assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
-        assertEquals("Username or password is incorrect", response.getBody());
+        assertEquals("{\"error\": \"Username or password is incorrect\"}", response.getBody());
     }
 
     @Test
