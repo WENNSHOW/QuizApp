@@ -44,16 +44,17 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/QuizApp/",
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "3MB",
+                  "maximumError": "5MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
                 }
               ],
               "outputHashing": "all"
@@ -101,6 +102,14 @@
               "src/styles.scss"
             ],
             "scripts": []
+          }
+        },
+        "deploy":{
+          "builder": "angular-cli-ghpages:deploy",
+          "options":{
+            "repo": "https://github.com/WENNSHOW/QuizApp.git",
+            "branch": "gh-pages",
+            "buildTarget": "quiz-web:build:production"
           }
         }
       }

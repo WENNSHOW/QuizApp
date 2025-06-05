@@ -1,6 +1,7 @@
 {
   "name": "quiz-web",
   "version": "0.0.0",
+  "homepage": "https://WENNSHOW.github.io/QuizApp/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
