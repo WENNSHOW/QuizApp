@@ -23,10 +23,6 @@ The application also presents user performance through graphical representations
 * Postman - _A tool for testing the RESTful part of an application_
 * Junit - _Server-side application tests_
 
-### Start
-
-_The project is available here - https://wennshow.github.io/QuizApp/_
-
 ### Demo
 
 1) #### Registration form in the browser
